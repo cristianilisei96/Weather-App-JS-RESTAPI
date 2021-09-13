@@ -1,0 +1,158 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Verdana;
+}
+
+a, a:hover {
+    text-decoration: none!important;
+}
+
+html {
+    height: 100vh;
+}
+
+body {
+    color: #fff;
+    overflow-x: hidden;
+    height: 100%;
+    background-image: linear-gradient(#81D4FA, #2196F3);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+input[type="search"], input {
+    border-radius: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.card0 {
+    width: 100%;
+    padding: 20px;
+}
+
+.card1 {
+    background-image: linear-gradient(#2196F3, #81D4FA);
+}
+
+.image {
+    width: 300px;
+    height: 300px
+}
+
+.day-weather-inner-box {
+    display: inline-flex;
+    margin: 14px auto;
+    padding: 20px;
+    border: 1px solid #4682b4;
+    background-color: rgba(0,0,0, 0.1);
+    border-radius: 5px;
+}
+
+.forecast-main {
+    padding: 0px 0px 0px 30px;
+}
+
+.day-weather-box p {
+    margin-bottom: 0;
+}
+
+.forecast-icon {
+    font-size: 25px;
+    margin-left: 5px;
+}
+
+.wi-day-hail:before {
+    content: "\f004";
+}
+
+.day-weather-box p {
+    margin-bottom: 0;
+}
+
+.large-font {
+    font-size: 70px;
+    font-family: Arial
+}
+
+.fa-sun-o {
+    font-size: 22px
+}
+
+.card2 {
+    background-color: #607D8B;
+    padding: 0px 0px 40px 40px
+}
+
+input {
+    background-color: #607D8B;
+    padding: 24px 0px 12px 0px !important;
+    width: 80%;
+    box-sizing: border-box;
+    border: none !important;
+    border-bottom: 1px solid #CFD8DC !important;
+    font-size: 16px !important;
+    color: #fff !important
+}
+
+input:focus {
+    -moz-box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid #fff !important;
+    outline-width: 0;
+    font-weight: 400
+}
+
+::placeholder {
+    color: #B0BEC5 !important;
+    opacity: 1
+}
+
+:-ms-input-placeholder {
+    color: #B0BEC5 !important
+}
+
+::-ms-input-placeholder {
+    color: #B0BEC5 !important
+}
+
+.fa-search {
+    color: #607D8B;
+    background-color: #E1F5FE;
+    font-size: 20px;
+    padding: 20px;
+    width: 20%;
+    cursor: pointer
+}
+
+.light-text {
+    color: #B0BEC5
+}
+
+.suggestionBtn {
+    cursor: pointer;
+}
+
+.suggestionBtn.active {
+    color: #fff;
+}
+
+.suggestion:hover {
+    color: #fff;
+    cursor: pointer
+}
+
+.line {
+    height: 1px;
+    background-color: #B0BEC5
+}
+
+@media screen and (max-width: 500px) {
+    .card1 {
+        padding-left: 26px
+    }
+}
+
