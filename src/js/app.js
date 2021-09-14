@@ -124,7 +124,7 @@ function changeWeatherDataInfo(data){
         + currentDate.getFullYear() + " ";
     // iconWeatherCity.innerHTML = data.weather[0].icon;
     iconWeatherCity.innerHTML = 
-        `<img src="${weatherIconUrl}${data.weather[0].icon}.png"/>`
+        `<img width="50" height="50" alt="icon-weather" src="${weatherIconUrl}${data.weather[0].icon}.png"/>`
     statusWeatherCity.innerHTML = data.weather[0].main;
     temperatureFeelsLikeCity.innerHTML = Math.round(data.main.feels_like) + '&#176;';
     descriptionWeatherCity.innerHTML = data.weather[0].description;
