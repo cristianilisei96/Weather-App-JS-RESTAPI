@@ -66,7 +66,7 @@ function getWeather(latitude, longitude){
 			return data;
 		})
 		.then(function(data) {		
-            this.changeWeatherDataInfo(data);
+            this.changeCityWeatherInfo(data);
 		});
 }
 
@@ -78,7 +78,7 @@ function getWeatherFromLocationSearch(){
     fetch(url)
         .then((response) => response.json())
         .then(function(data) {		
-            this.changeWeatherDataInfo(data);
+            this.changeCityWeatherInfo(data);
 		});
 }
 
@@ -89,7 +89,7 @@ function getPiatraNeamtWeather(){
     fetch(url)
         .then((response) => response.json())
         .then(function(data) {		
-            this.changeWeatherDataInfo(data);
+            this.changeCityWeatherInfo(data);
 		});
 }
 
@@ -99,7 +99,7 @@ function getClujNapocaWeather(){
     fetch(url)
         .then((response) => response.json())
         .then(function(data) {		
-            this.changeWeatherDataInfo(data);
+            this.changeCityWeatherInfo(data);
 		});
 }
 
@@ -109,11 +109,11 @@ function getBucharestWeather(){
     fetch(url)
         .then((response) => response.json())
         .then(function(data) {		
-            this.changeWeatherDataInfo(data);
+            this.changeCityWeatherInfo(data);
 		});
 }
 
-function changeWeatherDataInfo(data){
+function changeCityWeatherInfo(data){
     cityTemperature.innerHTML = Math.round(data.main.temp) + '&#176;C';
     cityName.innerHTML = data.name;
     dateAndTimeCity.innerHTML = 
