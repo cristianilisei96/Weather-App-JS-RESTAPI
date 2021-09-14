@@ -22,12 +22,6 @@ body {
     background-attachment: fixed;
 }
 
-input[type="search"], input {
-    border-radius: 0;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
-
 .card0 {
     width: 100%;
     padding: 20px;
@@ -103,7 +97,13 @@ input:focus {
     box-shadow: none !important;
     border-bottom: 1px solid #fff !important;
     outline-width: 0;
+    outline: 0;
     font-weight: 400
+}
+input[type="search"], input {
+    border-radius: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
 ::placeholder {

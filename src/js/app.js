@@ -1,15 +1,7 @@
 // Const URLs APP API
-const dataUrl = 'https://61363d1a8700c50017ef54c3.mockapi.io/products/';
 const currentWeatherUrl = 'https://api.openweathermap.org/data/2.5/weather?appid=69518b1f8f16c35f8705550dc4161056&units=metric&q=';
 const forecastWeatherUrl = 'https://api.openweathermap.org/data/2.5/forecast?appid=69518b1f8f16c35f8705550dc4161056&units=metric&q=';
 const weatherIconUrl = 'http://openweathermap.org/img/w/';
-
-// CHECK IF BROWSER SUPPORTS GEOLOCATION
-if('geolocation' in navigator){
-	navigator.geolocation.getCurrentPosition(setPosition, showError);
-} else {
-    alert("Your browser does not support Geolocation!");
-}
 
 // Select element from html
 const iconElement = document.querySelector(".weather-icon");
@@ -22,10 +14,6 @@ const monthNames = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
-let currentDate = new Date();
-let hours = currentDate.getHours();
-let minutes = currentDate.getMinutes();
-let amp = hours >= 12 ? 'pm' : 'am';
 const dateAndTimeCity = document.getElementById('dateAndTimeCity');
 const iconWeatherCity = document.getElementById('iconWeatherCity');
 const statusWeatherCity = document.getElementById('statusWeatherCity');
@@ -36,15 +24,121 @@ const presureWeatherCity = document.getElementById('presureWeatherCity');
 const minOfTemperatureCity = document.getElementById('minOfTemperatureCity');
 const maxOfTemperatureCity = document.getElementById('maxOfTemperatureCity');
 
-// Select element to day 1 to 6 present weather
+// ELEM TO DATE AND TIME
+let currentDate = new Date();
+let hours = currentDate.getHours();
+let minutes = currentDate.getMinutes();
+let amp = hours >= 12 ? 'pm' : 'am';
 
+// CHECK IF BROWSER SUPPORTS GEOLOCATION
+if('geolocation' in navigator){
+	navigator.geolocation.getCurrentPosition(getClientPosition, showError);
+} else {
+    alert("Your browser does not support Geolocation!");
+}
 
-// Select City script
+// GEOLOCATION - GET CLIENT POSITION
+function getClientPosition(position){
+	let latitude = position.coords.latitude;
+	let longitude = position.coords.longitude;
 
+	getWeather(latitude, longitude);
+}
+
+// SHOW ERROR WHEN THERE IS AN ISSUE WITH GEOLOCATION SERVICE
+function showError(error){
+    alert(`${error.message}`);
+}
+
+// Add eventlistener to buttons
+searchBtn.addEventListener('click', getWeatherFromLocationSearch);
+document.getElementById('getPiatraNeamtWeatherBtn').addEventListener('click', getPiatraNeamtWeather);
+document.getElementById('getClujNapocaWeatherBtn').addEventListener('click', getClujNapocaWeather);
+document.getElementById('getBucharestWeatherBtn').addEventListener('click', getBucharestWeather);
+
+// SCRIPT TO GET WEATHER FROM CURRENT POSITION CLIENT
+function getWeather(latitude, longitude){
+	let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=69518b1f8f16c35f8705550dc4161056`;
+
+	fetch(api)
+		.then(function(response) {
+			let data = response.json();
+			return data;
+		})
+		.then(function(data) {		
+            this.changeWeatherDataInfo(data);
+		});
+}
+
+// Script to ge weather from input search bar
+function getWeatherFromLocationSearch(){
+    const inputSearchValue = inputSearchLocation.value;
+    const url = currentWeatherUrl + inputSearchValue;
+    
+    fetch(url)
+        .then((response) => response.json())
+        .then(function(data) {		
+            this.changeWeatherDataInfo(data);
+		});
+}
+
+// Scripts to get weather from suggestions buttons
+function getPiatraNeamtWeather(){
+    const url = currentWeatherUrl + 'Piatra Neamt';
+
+    fetch(url)
+        .then((response) => response.json())
+        .then(function(data) {		
+            this.changeWeatherDataInfo(data);
+		});
+}
+
+function getClujNapocaWeather(){
+    const url = currentWeatherUrl + 'Cluj-Napoca';
+
+    fetch(url)
+        .then((response) => response.json())
+        .then(function(data) {		
+            this.changeWeatherDataInfo(data);
+		});
+}
+
+function getBucharestWeather(){
+    const url = currentWeatherUrl + 'Bucharest';
+
+    fetch(url)
+        .then((response) => response.json())
+        .then(function(data) {		
+            this.changeWeatherDataInfo(data);
+		});
+}
+
+function changeWeatherDataInfo(data){
+    cityTemperature.innerHTML = Math.round(data.main.temp) + '&#176;C';
+    cityName.innerHTML = data.name;
+    dateAndTimeCity.innerHTML = 
+        [hours % 12] + ":" + minutes + " " + amp + " - "
+        + daysNames[currentDate.getDay() - 1] + ', '
+        + currentDate.getDate() + "  "
+        + monthNames[currentDate.getMonth()] + " "
+        + currentDate.getFullYear() + " ";
+    // iconWeatherCity.innerHTML = data.weather[0].icon;
+    iconWeatherCity.innerHTML = 
+        `<img src="${weatherIconUrl}${data.weather[0].icon}.png"/>`
+    statusWeatherCity.innerHTML = data.weather[0].main;
+    temperatureFeelsLikeCity.innerHTML = Math.round(data.main.feels_like) + '&#176;';
+    descriptionWeatherCity.innerHTML = data.weather[0].description;
+    humidityWeatherCity.innerHTML = Math.round(data.main.humidity) + '%';
+    presureWeatherCity.innerHTML = Math.round(data.main.pressure);
+    minOfTemperatureCity.innerHTML = Math.round(data.main.temp_min) + '&#176;';
+    maxOfTemperatureCity.innerHTML = Math.round(data.main.temp_max) + '&#176;';
+}
+
+// Container and btns suggestion city
 const suggestionCityContainer = document.getElementById("suggestionCityContainer");
 const btns = suggestionCityContainer.getElementsByClassName("suggestionBtn");
 
-// Loop through the buttons and add the active class to the current/clicked button
+// Script add class active to selected suggestion city name 
 for (var i = 0; i < btns.length; i++) {
   btns[i].addEventListener("click", function() {
     let current = document.getElementsByClassName("active");
@@ -68,168 +162,6 @@ for (var i = 0; i < btns.length; i++) {
   });
 }
 
-// Get user position on load page
-// document.addEventListener('DOMContentLoaded', setPosition);
-
-// Set users position
-function setPosition(position){
-	let latitude = position.coords.latitude;
-	let longitude = position.coords.longitude;
-
-	getWeather(latitude, longitude);
-}
-
-// SHOW ERROR WHEN THERE IS AN ISSUE WITH GEOLOCATION SERVICE
-function showError(error){
-    alert(`${error.message}`);
-}
-
-// GET WEATHER FROM API PROVIDER 
-function getWeather(latitude, longitude){
-	let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=69518b1f8f16c35f8705550dc4161056`;
-
-	fetch(api)
-		.then(function(response) {
-			let data = response.json();
-			return data;
-		})
-		.then(function(data) {		
-            cityTemperature.innerHTML = Math.round(data.main.temp) + '&#176;C';
-            cityName.innerHTML = data.name;
-            dateAndTimeCity.innerHTML = 
-                [hours % 12] + ":" + minutes + " " + amp + " - "
-                + daysNames[currentDate.getDay() - 1] + ', '
-                + currentDate.getDate() + "  "
-                + monthNames[currentDate.getMonth()] + " "
-                + currentDate.getFullYear() + " ";
-            // iconWeatherCity.innerHTML = data.weather[0].icon;
-            iconWeatherCity.innerHTML = 
-                `<img src="${weatherIconUrl}${data.weather[0].icon}.png"/>`
-            statusWeatherCity.innerHTML = data.weather[0].main;
-            temperatureFeelsLikeCity.innerHTML = Math.round(data.main.feels_like) + '&#176;';
-            descriptionWeatherCity.innerHTML = data.weather[0].description;
-            humidityWeatherCity.innerHTML = Math.round(data.main.humidity) + '%';
-            presureWeatherCity.innerHTML = Math.round(data.main.pressure);
-            minOfTemperatureCity.innerHTML = Math.round(data.main.temp_min) + '&#176;';
-            maxOfTemperatureCity.innerHTML = Math.round(data.main.temp_max) + '&#176;';
-		});
-}
-
 function clearField(){
     inputSearchLocation.value = '';
 }
-
-searchBtn.addEventListener('click', getWeatherFromLocationSearch);
-
-function getWeatherFromLocationSearch(){
-    const inputSearchValue = inputSearchLocation.value;
-    const url = currentWeatherUrl + inputSearchValue;
-    
-    fetch(url)
-        .then((response) => response.json())
-        .then(data => {
-            cityTemperature.innerHTML = Math.round(data.main.temp) + '&#176;C';
-            cityName.innerHTML = data.name;
-            dateAndTimeCity.innerHTML = 
-                [hours % 12] + ":" + minutes + " " + amp + " - "
-                + daysNames[currentDate.getDay() - 1] + ', '
-                + currentDate.getDate() + "  "
-                + monthNames[currentDate.getMonth()] + " "
-                + currentDate.getFullYear() + " ";
-            iconWeatherCity.innerHTML = 
-                `<img src="${weatherIconUrl}${data.weather[0].icon}.png"/>`
-            statusWeatherCity.innerHTML = data.weather[0].main;
-            temperatureFeelsLikeCity.innerHTML = Math.round(data.main.feels_like) + '&#176;';
-            descriptionWeatherCity.innerHTML = data.weather[0].description;
-            humidityWeatherCity.innerHTML = Math.round(data.main.humidity) + '%';
-            presureWeatherCity.innerHTML = Math.round(data.main.pressure);
-            minOfTemperatureCity.innerHTML = Math.round(data.main.temp_min) + '&#176;';
-            maxOfTemperatureCity.innerHTML = Math.round(data.main.temp_max) + '&#176;';
-        });
-}
-
-document.getElementById('getPiatraNeamtWeatherBtn').addEventListener('click', getPiatraNeamtWeather);
-
-function getPiatraNeamtWeather(){
-    const url = currentWeatherUrl + 'Piatra Neamt';
-
-    fetch(url)
-        .then((response) => response.json())
-        .then(data => {
-            cityTemperature.innerHTML = Math.round(data.main.temp) + '&#176;C';
-            cityName.innerHTML = data.name;
-            dateAndTimeCity.innerHTML = 
-                [hours % 12] + ":" + minutes + " " + amp + " - "
-                + daysNames[currentDate.getDay() - 1] + ', '
-                + currentDate.getDate() + "  "
-                + monthNames[currentDate.getMonth()] + " "
-                + currentDate.getFullYear() + " ";
-            iconWeatherCity.innerHTML = 
-                `<img src="${weatherIconUrl}${data.weather[0].icon}.png"/>`
-            statusWeatherCity.innerHTML = data.weather[0].main;
-            temperatureFeelsLikeCity.innerHTML = Math.round(data.main.feels_like) + '&#176;';
-            descriptionWeatherCity.innerHTML = data.weather[0].description;
-            humidityWeatherCity.innerHTML = Math.round(data.main.humidity) + '%';
-            presureWeatherCity.innerHTML = Math.round(data.main.pressure);
-            minOfTemperatureCity.innerHTML = Math.round(data.main.temp_min) + '&#176;';
-            maxOfTemperatureCity.innerHTML = Math.round(data.main.temp_max) + '&#176;';
-        });
-}
-
-document.getElementById('getClujNapocaWeatherBtn').addEventListener('click', getClujNapocaWeather);
-
-function getClujNapocaWeather(){
-    const url = currentWeatherUrl + 'Cluj-Napoca';
-
-    fetch(url)
-        .then((response) => response.json())
-        .then(data => {
-            cityTemperature.innerHTML = Math.round(data.main.temp) + '&#176;C';
-            cityName.innerHTML = data.name;
-            dateAndTimeCity.innerHTML = 
-                [hours % 12] + ":" + minutes + " " + amp + " - "
-                + daysNames[currentDate.getDay() - 1] + ', '
-                + currentDate.getDate() + "  "
-                + monthNames[currentDate.getMonth()] + " "
-                + currentDate.getFullYear() + " ";
-            iconWeatherCity.innerHTML = 
-                `<img src="${weatherIconUrl}${data.weather[0].icon}.png"/>`
-            statusWeatherCity.innerHTML = data.weather[0].main;
-            temperatureFeelsLikeCity.innerHTML = Math.round(data.main.feels_like) + '&#176;';
-            descriptionWeatherCity.innerHTML = data.weather[0].description;
-            humidityWeatherCity.innerHTML = Math.round(data.main.humidity) + '%';
-            presureWeatherCity.innerHTML = Math.round(data.main.pressure);
-            minOfTemperatureCity.innerHTML = Math.round(data.main.temp_min) + '&#176;';
-            maxOfTemperatureCity.innerHTML = Math.round(data.main.temp_max) + '&#176;';
-        });
-}
-
-document.getElementById('getBucharestWeatherBtn').addEventListener('click', getBucharestWeather);
-
-function getBucharestWeather(){
-    const url = currentWeatherUrl + 'Bucharest';
-
-    fetch(url)
-        .then((response) => response.json())
-        .then(data => {
-            cityTemperature.innerHTML = Math.round(data.main.temp) + '&#176;C';
-            cityName.innerHTML = data.name;
-            dateAndTimeCity.innerHTML = 
-                [hours % 12] + ":" + minutes + " " + amp + " - "
-                + daysNames[currentDate.getDay() - 1] + ', '
-                + currentDate.getDate() + "  "
-                + monthNames[currentDate.getMonth()] + " "
-                + currentDate.getFullYear() + " ";
-            iconWeatherCity.innerHTML = 
-                `<img src="${weatherIconUrl}${data.weather[0].icon}.png"/>`
-            statusWeatherCity.innerHTML = data.weather[0].main;
-            temperatureFeelsLikeCity.innerHTML = Math.round(data.main.feels_like) + '&#176;';
-            descriptionWeatherCity.innerHTML = data.weather[0].description;
-            humidityWeatherCity.innerHTML = Math.round(data.main.humidity) + '%';
-            presureWeatherCity.innerHTML = Math.round(data.main.pressure);
-            minOfTemperatureCity.innerHTML = Math.round(data.main.temp_min) + '&#176;';
-            maxOfTemperatureCity.innerHTML = Math.round(data.main.temp_max) + '&#176;';
-        });
-}
-
-// Present day

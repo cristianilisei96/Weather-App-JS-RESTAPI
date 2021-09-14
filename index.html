@@ -5,191 +5,190 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
-    <meta http-equiv=“Content-Security-Policy” content=“default-src ‘self’ gap://ready file://* *; style-src ‘self’ ‘unsafe-inline’; script-src ‘self’ ‘unsafe-inline’ ‘unsafe-eval’”/>
+    <!-- <meta http-equiv=“Content-Security-Policy” content=“default-src ‘self’ gap://ready file://* *; style-src ‘self’ ‘unsafe-inline’; script-src ‘self’ ‘unsafe-inline’ ‘unsafe-eval’”/> -->
     <link rel="stylesheet" href="./src/css/style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.css">
+    <link rel="stylesheet" href="./node_modules/@fortawesome/fontawesome-free/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
-<body id="map" onload="setPosition()">
+<body>
 <div id="app">
-    <div class="container-fluid">
-        <div class="row d-flex justify-content-center">
-            <div class="row card0">
-                <div class="card1 col-lg-8 col-md-7">
-                    <div class="header py-4">
-                        <h1>
-                            <a class="text-white" href="index.html">Weather APP JS RESTAPI</a>
-                        </h1>
-                    </div>
-                    <hr>
-                    <div class="row px-3 mt-3 mb-3 justify-content-end text-white">
-                        <h1 id="cityTemperature" class="large-font mr-3"></h1>
-                        <div class="d-flex flex-column mr-3">
-                            <h2 id="cityName" class="mt-3 mb-0"></h2> 
-                                <small id="dateAndTimeCity"></small>
-                        </div>
-                        <div class="d-flex flex-column text-center">
-                            <div id="iconWeatherCity" class="mb-1"></div> 
-                                <small id="statusWeatherCity"></small>
-                        </div>
-                    </div>
-                    <hr>
+  <div class="container-fluid">
+    <div class="row d-flex justify-content-center">
+      <div class="row card0">
+        <div class="card1 col-lg-8 col-md-7">
+          <div class="header py-4">
+            <h1>
+              <a class="text-white" href="index.html">Weather APP JS RESTAPI</a>
+            </h1>
+          </div>
+          <hr>
+          <div class="row px-3 mt-3 mb-3 justify-content-end text-white">
+            <h1 id="cityTemperature" class="large-font mr-3"></h1>
+              <div class="d-flex flex-column mr-3">
+                <h2 id="cityName" class="mt-3 mb-0"></h2> 
+                  <small id="dateAndTimeCity"></small>
+              </div>
+              <div class="d-flex flex-column text-center">
+                  <div id="iconWeatherCity" class="mb-1"></div> 
+                      <small id="statusWeatherCity"></small>
+              </div>
+          </div>
+          <hr>
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="title text-white">
+                      <h4 class="mt-2">Weather in the next 6 days</h4>
+                  </div>
+              </div>
+          </div>
+          <div class="row px-3 mt-3 mb-3 justify-content-end text-white">
+
+              <!-- Day 1 -->
+              <div class="col-md-4 day-weather-box">
+                <div class="col-md-12 day-weather-inner-box">
+                  <div class="col-md-8 forecast-main">
+                    <p id="forecast-day-1-name">Tue</p>
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="title text-white">
-                                <h4 class="mt-2">Weather in the next 6 days</h4>
-                            </div>
-                        </div>
+                      <h5 id="forecast-day-1-main">24</h5>
+                      <i class="wi forecast-icon wi-day-hail" id="forecast-day-1-icon"></i>
                     </div>
-                    <div class="row px-3 mt-3 mb-3 justify-content-end text-white">
-      
-                        <!-- Day 1 -->
-                        <div class="col-md-4 day-weather-box">
-                          <div class="col-md-12 day-weather-inner-box">
-                            <div class="col-md-8 forecast-main">
-                              <p id="forecast-day-1-name">Tue</p>
-                              <div class="row">
-                                <h5 id="forecast-day-1-main">24</h5>
-                                <i class="wi forecast-icon wi-day-hail" id="forecast-day-1-icon"></i>
-                              </div>
-                            </div>
-                            <div class="col-md-4 forecast-min-low">
-                              <p><spam class="high-temperature" id="forecast-day-1-ht">25</spam></p>
-                              <p><spam class="low-temperature" id="forecast-day-1-lt">14</spam></p>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <!-- Day 2 -->
-                        <div class="col-md-4 day-weather-box">
-                          <div class="col-md-12 day-weather-inner-box">
-                            <div class="col-md-8 forecast-main">
-                              <p id="forecast-day-2-name">Wed</p>
-                              <div class="row">
-                                <h5 id="forecast-day-2-main">22</h5>
-                                <i class="wi forecast-icon wi-day-hail" id="forecast-day-2-icon"></i>
-                              </div>
-                            </div>
-                            <div class="col-md-4 forecast-min-low">
-                              <p><spam class="high-temperature" id="forecast-day-2-ht">23</spam></p>
-                              <p><spam class="low-temperature" id="forecast-day-2-lt">14</spam></p>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <!-- Day 3 -->
-                        <div class="col-md-4 day-weather-box">
-                          <div class="col-md-12 day-weather-inner-box">
-                            <div class="col-md-8 forecast-main">
-                              <p id="forecast-day-3-name">Thu</p>
-                              <div class="row">
-                                <h5 id="forecast-day-3-main">25</h5>
-                                <i class="wi forecast-icon wi-day-cloudy" id="forecast-day-3-icon"></i>
-                              </div>
-                            </div>
-                            <div class="col-md-4 forecast-min-low">
-                              <p><spam class="high-temperature" id="forecast-day-3-ht">27</spam></p>
-                              <p><spam class="low-temperature" id="forecast-day-3-lt">15</spam></p>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <!-- Day 4 -->
-                        <div class="col-md-4 day-weather-box">
-                          <div class="col-md-12 day-weather-inner-box">
-                            <div class="col-md-8 forecast-main">
-                              <p id="forecast-day-4-name">Fri</p>
-                              <div class="row">
-                                <h5 id="forecast-day-4-main">22</h5>
-                                <i class="wi forecast-icon wi-day-hail" id="forecast-day-4-icon"></i>
-                              </div>
-                            </div>
-                            <div class="col-md-4 forecast-min-low">
-                              <p><spam class="high-temperature" id="forecast-day-4-ht">22</spam></p>
-                              <p><spam class="low-temperature" id="forecast-day-4-lt">17</spam></p>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Day 5 -->
-                        <div class="col-md-4 day-weather-box">
-                            <div class="col-md-12 day-weather-inner-box">
-                              <div class="col-md-8 forecast-main">
-                                <p id="forecast-day-5-name">Fri</p>
-                                <div class="row">
-                                  <h5 id="forecast-day-5-main">22</h5>
-                                  <i class="wi forecast-icon wi-day-hail" id="forecast-day-5-icon"></i>
-                                </div>
-                              </div>
-                              <div class="col-md-4 forecast-min-low">
-                                <p><spam class="high-temperature" id="forecast-day-5-ht">22</spam></p>
-                                <p><spam class="low-temperature" id="forecast-day-5-lt">17</spam></p>
-                              </div>
-                            </div>
-                          </div>
-
-                          <!-- Day 6 -->
-                        <div class="col-md-4 day-weather-box">
-                            <div class="col-md-12 day-weather-inner-box">
-                              <div class="col-md-8 forecast-main">
-                                <p id="forecast-day-6-name">Fri</p>
-                                <div class="row">
-                                  <h5 id="forecast-day-6-main">22</h5>
-                                  <i class="wi forecast-icon wi-day-hail" id="forecast-day-6-icon"></i>
-                                </div>
-                              </div>
-                              <div class="col-md-4 forecast-min-low">
-                                <p><spam class="high-temperature" id="forecast-day-6-ht">22</spam></p>
-                                <p><spam class="low-temperature" id="forecast-day-6-lt">17</spam></p>
-                              </div>
-                            </div>
-                          </div>
-                        
-                        
-                    </div>
+                  </div>
+                  <div class="col-md-4 forecast-min-low">
+                    <p><spam class="high-temperature" id="forecast-day-1-ht">25</spam></p>
+                    <p><spam class="low-temperature" id="forecast-day-1-lt">14</spam></p>
+                  </div>
                 </div>
-                <div class="card2 col-lg-4 col-md-5 text-white">
-                    <div class="row px-3"> 
-                        <input type="search" id="locationSearchInput" name="location" placeholder="Another location" class="mb-5">
-                        <div id="buttonToSearch" class="fa fa-search mb-5 mr-0 text-center"></div>
+              </div>
+              
+              <!-- Day 2 -->
+              <div class="col-md-4 day-weather-box">
+                <div class="col-md-12 day-weather-inner-box">
+                  <div class="col-md-8 forecast-main">
+                    <p id="forecast-day-2-name">Wed</p>
+                    <div class="row">
+                      <h5 id="forecast-day-2-main">22</h5>
+                      <i class="wi forecast-icon wi-day-hail" id="forecast-day-2-icon"></i>
                     </div>
-                    <div class="mr-5">
-                        <div id="suggestionCityContainer">
-                            <p id="getPiatraNeamtWeatherBtn" class="light-text suggestionBtn">Piatra Neamt</p>
-                            <p id="getClujNapocaWeatherBtn" class="light-text suggestionBtn">Cluj-Napoca</p>
-                            <p id="getBucharestWeatherBtn" class="light-text suggestionBtn">Bucharest</p>
-                        </div>
-                        <div class="line my-5"></div>
-                        <div class="row px-3">
-                            <p class="light-text">Feels like</p>
-                            <p id="temperatureFeelsLikeCity" class="ml-auto">17&#176;</p>
-                        </div>
-                        <div class="row px-3">
-                            <p class="light-text">Description</p>
-                            <p id="descriptionWeatherCity" class="ml-auto">overcast clouds</p>
-                        </div>
-                        <div class="row px-3">
-                            <p class="light-text">Humidity</p>
-                            <p id="humidityWeatherCity" class="ml-auto">67</p>
-                        </div>
-                        <div class="row px-3">
-                            <p class="light-text">Pressure</p>
-                            <p id="presureWeatherCity" class="ml-auto">1019</p>
-                        </div>
-                        <div class="row px-3">
-                            <p class="light-text">The minimum of the day</p>
-                            <p id="minOfTemperatureCity" class="ml-auto">17&#176;</p>
-                        </div>
-                        <div class="row px-3">
-                            <p class="light-text">The maximum of the day</p>
-                            <p id="maxOfTemperatureCity" class="ml-auto">20&#176;</p>
-                        </div>
-                        <div class="line mt-3"></div>
-                    </div>
+                  </div>
+                  <div class="col-md-4 forecast-min-low">
+                    <p><spam class="high-temperature" id="forecast-day-2-ht">23</spam></p>
+                    <p><spam class="low-temperature" id="forecast-day-2-lt">14</spam></p>
+                  </div>
                 </div>
-            </div>
+              </div>
+              
+              <!-- Day 3 -->
+              <div class="col-md-4 day-weather-box">
+                <div class="col-md-12 day-weather-inner-box">
+                  <div class="col-md-8 forecast-main">
+                    <p id="forecast-day-3-name">Thu</p>
+                    <div class="row">
+                      <h5 id="forecast-day-3-main">25</h5>
+                      <i class="wi forecast-icon wi-day-cloudy" id="forecast-day-3-icon"></i>
+                    </div>
+                  </div>
+                  <div class="col-md-4 forecast-min-low">
+                    <p><spam class="high-temperature" id="forecast-day-3-ht">27</spam></p>
+                    <p><spam class="low-temperature" id="forecast-day-3-lt">15</spam></p>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Day 4 -->
+              <div class="col-md-4 day-weather-box">
+                <div class="col-md-12 day-weather-inner-box">
+                  <div class="col-md-8 forecast-main">
+                    <p id="forecast-day-4-name">Fri</p>
+                    <div class="row">
+                      <h5 id="forecast-day-4-main">22</h5>
+                      <i class="wi forecast-icon wi-day-hail" id="forecast-day-4-icon"></i>
+                    </div>
+                  </div>
+                  <div class="col-md-4 forecast-min-low">
+                    <p><spam class="high-temperature" id="forecast-day-4-ht">22</spam></p>
+                    <p><spam class="low-temperature" id="forecast-day-4-lt">17</spam></p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Day 5 -->
+              <div class="col-md-4 day-weather-box">
+                  <div class="col-md-12 day-weather-inner-box">
+                    <div class="col-md-8 forecast-main">
+                      <p id="forecast-day-5-name">Fri</p>
+                      <div class="row">
+                        <h5 id="forecast-day-5-main">22</h5>
+                        <i class="wi forecast-icon wi-day-hail" id="forecast-day-5-icon"></i>
+                      </div>
+                    </div>
+                    <div class="col-md-4 forecast-min-low">
+                      <p><spam class="high-temperature" id="forecast-day-5-ht">22</spam></p>
+                      <p><spam class="low-temperature" id="forecast-day-5-lt">17</spam></p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Day 6 -->
+              <div class="col-md-4 day-weather-box">
+                  <div class="col-md-12 day-weather-inner-box">
+                    <div class="col-md-8 forecast-main">
+                      <p id="forecast-day-6-name">Fri</p>
+                      <div class="row">
+                        <h5 id="forecast-day-6-main">22</h5>
+                        <i class="wi forecast-icon wi-day-hail" id="forecast-day-6-icon"></i>
+                      </div>
+                    </div>
+                    <div class="col-md-4 forecast-min-low">
+                      <p><spam class="high-temperature" id="forecast-day-6-ht">22</spam></p>
+                      <p><spam class="low-temperature" id="forecast-day-6-lt">17</spam></p>
+                    </div>
+                  </div>
+                </div>
+          </div>
         </div>
+        <div class="card2 col-lg-4 col-md-5 text-white">
+          <div class="row px-3"> 
+            <input type="search" id="locationSearchInput" name="location" placeholder="Another location" class="mb-5">
+              <div id="buttonToSearch" class="fa fa-search mb-5 mr-0 text-center"></div>
+          </div>
+          <div class="mr-5">
+            <div id="suggestionCityContainer">
+              <p id="getPiatraNeamtWeatherBtn" class="light-text suggestionBtn">Piatra Neamţ</p>
+              <p id="getClujNapocaWeatherBtn" class="light-text suggestionBtn">Cluj-Napoca</p>
+              <p id="getBucharestWeatherBtn" class="light-text suggestionBtn">Bucharest</p>
+            </div>
+            <div class="line my-5"></div>
+            <div class="row px-3">
+              <p class="light-text">Feels like</p>
+                <p id="temperatureFeelsLikeCity" class="ml-auto"></p>
+            </div>
+            <div class="row px-3">
+              <p class="light-text">Description</p>
+                <p id="descriptionWeatherCity" class="ml-auto"></p>
+            </div>
+            <div class="row px-3">
+              <p class="light-text">Humidity</p>
+                <p id="humidityWeatherCity" class="ml-auto"></p>
+            </div>
+            <div class="row px-3">
+              <p class="light-text">Pressure</p>
+                <p id="presureWeatherCity" class="ml-auto"></p>
+            </div>
+            <div class="row px-3">
+              <p class="light-text">The minimum of the day</p>
+                <p id="minOfTemperatureCity" class="ml-auto"></p>
+            </div>
+            <div class="row px-3">
+              <p class="light-text">The maximum of the day</p>
+                <p id="maxOfTemperatureCity" class="ml-auto"></p>
+            </div>
+            <div class="line mt-3"></div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
