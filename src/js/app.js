@@ -30,6 +30,14 @@ let hours = currentDate.getHours();
 let minutes = currentDate.getMinutes();
 let amp = hours >= 12 ? 'pm' : 'am';
 
+// ELEMS TO NEXT 6 days
+const contentFirstDay = document.getElementById('contentFirstDay');
+const contentSecondDay = document.getElementById('contentSecondDay');
+const contentThirdDay = document.getElementById('contentThirdDay');
+const contentFourthDay = document.getElementById('contentFourthDay');
+const contentFifthDay = document.getElementById('contentFifthDay');
+const contentSixthDay = document.getElementById('contentSixthDay');
+
 // CHECK IF BROWSER SUPPORTS GEOLOCATION
 if('geolocation' in navigator){
 	navigator.geolocation.getCurrentPosition(getClientPosition, showError);
@@ -56,11 +64,11 @@ document.getElementById('getPiatraNeamtWeatherBtn').addEventListener('click', ge
 document.getElementById('getClujNapocaWeatherBtn').addEventListener('click', getClujNapocaWeather);
 document.getElementById('getBucharestWeatherBtn').addEventListener('click', getBucharestWeather);
 
-// SCRIPT TO GET WEATHER FROM CURRENT POSITION CLIENT
+// SCRIPT TO GET WEATHER INFO FROM CURRENT POSITION CLIENT
 function getWeather(latitude, longitude){
-	let api = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=69518b1f8f16c35f8705550dc4161056`;
+	let url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=69518b1f8f16c35f8705550dc4161056`;
 
-	fetch(api)
+	fetch(url)
 		.then(function(response) {
 			let data = response.json();
 			return data;
@@ -68,6 +76,18 @@ function getWeather(latitude, longitude){
 		.then(function(data) {		
             this.changeCityWeatherInfo(data);
 		});
+
+    const urlForecast = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=69518b1f8f16c35f8705550dc4161056`;
+
+    fetch(urlForecast)
+        .then(function(response) {
+            let data = response.json();
+            return data;
+        })
+        .then(function(data) {
+            this.forecastInfoClientPosition(data);
+        });
+        
 }
 
 // Script to ge weather from input search bar
@@ -76,10 +96,25 @@ function getWeatherFromLocationSearch(){
     const url = currentWeatherUrl + inputSearchValue;
     
     fetch(url)
-        .then((response) => response.json())
+        .then(function(response) {
+            let data = response.json();
+            return data;
+        })
         .then(function(data) {		
             this.changeCityWeatherInfo(data);
 		});
+
+    const urlForecast = forecastWeatherUrl + inputSearchLocation.value;
+
+    fetch(urlForecast)
+        .then(function(response) {
+			let data = response.json();
+			return data;
+		})
+        .then(function(data) {
+            console.log(urlForecast);
+            this.forecastInfoSearchLocation(data);
+        });
 }
 
 // Scripts to get weather from suggestions buttons
@@ -87,30 +122,72 @@ function getPiatraNeamtWeather(){
     const url = currentWeatherUrl + 'Piatra Neamt';
 
     fetch(url)
-        .then((response) => response.json())
+        .then(function(response) {
+            let data = response.json();
+            return data;
+        })
         .then(function(data) {		
             this.changeCityWeatherInfo(data);
 		});
+
+    const urlForecast = forecastWeatherUrl + 'Piatra Neamt';
+
+    fetch(urlForecast)
+        .then(function(response) {
+			let data = response.json();
+			return data;
+		})
+        .then(function(data) {
+            this.forecastInfoSuggestionLocation(data);
+        });
 }
 
 function getClujNapocaWeather(){
     const url = currentWeatherUrl + 'Cluj-Napoca';
 
     fetch(url)
-        .then((response) => response.json())
+        .then(function(response) {
+			let data = response.json();
+			return data;
+		})
         .then(function(data) {		
             this.changeCityWeatherInfo(data);
 		});
+
+    const urlForecast = forecastWeatherUrl + 'Cluj-Napoca';
+
+    fetch(urlForecast)
+        .then(function(response) {
+			let data = response.json();
+			return data;
+		})
+        .then(function(data) {
+            this.forecastInfoSuggestionLocation(data);
+        });
 }
 
 function getBucharestWeather(){
     const url = currentWeatherUrl + 'Bucharest';
 
     fetch(url)
-        .then((response) => response.json())
+        .then(function(response) {
+            let data = response.json();
+            return data;
+        })
         .then(function(data) {		
             this.changeCityWeatherInfo(data);
 		});
+    
+    const urlForecast = forecastWeatherUrl + 'Bucharest';
+
+    fetch(urlForecast)
+        .then(function(response) {
+            let data = response.json();
+            return data;
+        })
+        .then(function(data) {
+            this.forecastInfoSuggestionLocation(data);
+        });
 }
 
 function changeCityWeatherInfo(data){
@@ -126,12 +203,329 @@ function changeCityWeatherInfo(data){
     iconWeatherCity.innerHTML = 
         `<img width="50" height="50" alt="icon-weather" src="${weatherIconUrl}${data.weather[0].icon}.png"/>`
     statusWeatherCity.innerHTML = data.weather[0].main;
-    temperatureFeelsLikeCity.innerHTML = Math.round(data.main.feels_like) + '&#176;';
+    temperatureFeelsLikeCity.innerHTML = Math.round(data.main.feels_like) + '&#176;C';
     descriptionWeatherCity.innerHTML = data.weather[0].description;
     humidityWeatherCity.innerHTML = Math.round(data.main.humidity) + '%';
     presureWeatherCity.innerHTML = Math.round(data.main.pressure);
-    minOfTemperatureCity.innerHTML = Math.round(data.main.temp_min) + '&#176;';
-    maxOfTemperatureCity.innerHTML = Math.round(data.main.temp_max) + '&#176;';
+    minOfTemperatureCity.innerHTML = Math.round(data.main.temp_min) + '&#176;C';
+    maxOfTemperatureCity.innerHTML = Math.round(data.main.temp_max) + '&#176;C';
+}
+
+function forecastInfoClientPosition(data){
+    
+    contentFirstDay.innerHTML = 
+        `${data.list[7].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[7].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[7].main.temp)}&#176C <br>
+        ${data.list[7].weather[0].description} <hr>
+        ${data.list[8].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[8].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[8].main.temp)}&#176C <br>
+        ${data.list[8].weather[0].description} <hr>
+        ${data.list[9].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[9].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[9].main.temp)}&#176C <br>
+        ${data.list[9].weather[0].description} <hr>
+        ${data.list[10].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[10].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[10].main.temp)}&#176C <br>
+        ${data.list[10].weather[0].description} <hr>
+        ${data.list[11].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[11].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[11].main.temp)}&#176C <br>
+        ${data.list[11].weather[0].description} <hr>
+        ${data.list[12].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[12].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[12].main.temp)}&#176C <br>
+        ${data.list[12].weather[0].description} <hr>
+        ${data.list[13].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[13].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[13].main.temp)}&#176C <br>
+        ${data.list[13].weather[0].description} <hr>
+        ${data.list[14].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[14].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[14].main.temp)}&#176C <br>
+        ${data.list[14].weather[0].description}`;
+
+    contentSecondDay.innerHTML = 
+        `${data.list[15].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[15].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[15].main.temp)}&#176C <br>
+        ${data.list[15].weather[0].description} <hr>
+        ${data.list[16].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[16].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[16].main.temp)}&#176C <br>
+        ${data.list[16].weather[0].description} <hr>
+        ${data.list[17].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[17].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[17].main.temp)}&#176C <br>
+        ${data.list[17].weather[0].description} <hr>
+        ${data.list[18].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[18].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[18].main.temp)}&#176C <br>
+        ${data.list[18].weather[0].description} <hr>
+        ${data.list[19].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[19].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[19].main.temp)}&#176C <br>
+        ${data.list[19].weather[0].description} <hr>
+        ${data.list[20].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[20].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[20].main.temp)}&#176C <br>
+        ${data.list[20].weather[0].description} <hr>
+        ${data.list[21].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[21].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[21].main.temp)}&#176C <br>
+        ${data.list[21].weather[0].description} <hr>
+        ${data.list[22].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[22].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[22].main.temp)}&#176C <br>
+        ${data.list[22].weather[0].description}`;
+
+    contentThirdDay.innerHTML = 
+        `${data.list[23].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[15].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[15].main.temp)}&#176C <br>
+        ${data.list[23].weather[0].description} <hr>
+        ${data.list[24].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[16].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[16].main.temp)}&#176C <br>
+        ${data.list[24].weather[0].description} <hr>
+        ${data.list[25].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[17].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[17].main.temp)}&#176C <br>
+        ${data.list[25].weather[0].description} <hr>
+        ${data.list[26].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[18].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[18].main.temp)}&#176C <br>
+        ${data.list[26].weather[0].description} <hr>
+        ${data.list[27].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[19].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[19].main.temp)}&#176C <br>
+        ${data.list[27].weather[0].description} <hr>
+        ${data.list[28].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[20].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[20].main.temp)}&#176C <br>
+        ${data.list[28].weather[0].description} <hr>
+        ${data.list[29].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[21].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[21].main.temp)}&#176C <br>
+        ${data.list[29].weather[0].description} <hr>
+        ${data.list[30].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[22].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[22].main.temp)}&#176C <br>
+        ${data.list[30].weather[0].description}`;
+}
+
+function forecastInfoSearchLocation(data){
+
+    contentFirstDay.innerHTML = 
+        `${data.list[7].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[7].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[7].main.temp)}&#176C <br>
+        ${data.list[7].weather[0].description} <hr>
+        ${data.list[8].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[8].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[8].main.temp)}&#176C <br>
+        ${data.list[8].weather[0].description} <hr>
+        ${data.list[9].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[9].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[9].main.temp)}&#176C <br>
+        ${data.list[9].weather[0].description} <hr>
+        ${data.list[10].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[10].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[10].main.temp)}&#176C <br>
+        ${data.list[10].weather[0].description} <hr>
+        ${data.list[11].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[11].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[11].main.temp)}&#176C <br>
+        ${data.list[11].weather[0].description} <hr>
+        ${data.list[12].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[12].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[12].main.temp)}&#176C <br>
+        ${data.list[12].weather[0].description} <hr>
+        ${data.list[13].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[13].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[13].main.temp)}&#176C <br>
+        ${data.list[13].weather[0].description} <hr>
+        ${data.list[14].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[14].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[14].main.temp)}&#176C <br>
+        ${data.list[14].weather[0].description}`;
+
+    contentSecondDay.innerHTML = 
+        `${data.list[15].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[15].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[15].main.temp)}&#176C <br>
+        ${data.list[15].weather[0].description} <hr>
+        ${data.list[16].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[16].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[16].main.temp)}&#176C <br>
+        ${data.list[16].weather[0].description} <hr>
+        ${data.list[17].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[17].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[17].main.temp)}&#176C <br>
+        ${data.list[17].weather[0].description} <hr>
+        ${data.list[18].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[18].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[18].main.temp)}&#176C <br>
+        ${data.list[18].weather[0].description} <hr>
+        ${data.list[19].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[19].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[19].main.temp)}&#176C <br>
+        ${data.list[19].weather[0].description} <hr>
+        ${data.list[20].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[20].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[20].main.temp)}&#176C <br>
+        ${data.list[20].weather[0].description} <hr>
+        ${data.list[21].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[21].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[21].main.temp)}&#176C <br>
+        ${data.list[21].weather[0].description} <hr>
+        ${data.list[22].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[22].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[22].main.temp)}&#176C <br>
+        ${data.list[22].weather[0].description}`;
+
+    contentThirdDay.innerHTML = 
+        `${data.list[23].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[15].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[15].main.temp)}&#176C <br>
+        ${data.list[23].weather[0].description} <hr>
+        ${data.list[24].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[16].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[16].main.temp)}&#176C <br>
+        ${data.list[24].weather[0].description} <hr>
+        ${data.list[25].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[17].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[17].main.temp)}&#176C <br>
+        ${data.list[25].weather[0].description} <hr>
+        ${data.list[26].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[18].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[18].main.temp)}&#176C <br>
+        ${data.list[26].weather[0].description} <hr>
+        ${data.list[27].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[19].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[19].main.temp)}&#176C <br>
+        ${data.list[27].weather[0].description} <hr>
+        ${data.list[28].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[20].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[20].main.temp)}&#176C <br>
+        ${data.list[28].weather[0].description} <hr>
+        ${data.list[29].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[21].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[21].main.temp)}&#176C <br>
+        ${data.list[29].weather[0].description} <hr>
+        ${data.list[30].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[22].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[22].main.temp)}&#176C <br>
+        ${data.list[30].weather[0].description}`;
+
+}
+
+function forecastInfoSuggestionLocation(data){
+
+    contentFirstDay.innerHTML = 
+        `${data.list[7].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[7].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[7].main.temp)}&#176C <br>
+        ${data.list[7].weather[0].description} <hr>
+        ${data.list[8].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[8].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[8].main.temp)}&#176C <br>
+        ${data.list[8].weather[0].description} <hr>
+        ${data.list[9].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[9].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[9].main.temp)}&#176C <br>
+        ${data.list[9].weather[0].description} <hr>
+        ${data.list[10].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[10].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[10].main.temp)}&#176C <br>
+        ${data.list[10].weather[0].description} <hr>
+        ${data.list[11].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[11].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[11].main.temp)}&#176C <br>
+        ${data.list[11].weather[0].description} <hr>
+        ${data.list[12].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[12].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[12].main.temp)}&#176C <br>
+        ${data.list[12].weather[0].description} <hr>
+        ${data.list[13].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[13].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[13].main.temp)}&#176C <br>
+        ${data.list[13].weather[0].description} <hr>
+        ${data.list[14].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[14].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[14].main.temp)}&#176C <br>
+        ${data.list[14].weather[0].description}`;
+
+    contentSecondDay.innerHTML = 
+        `${data.list[15].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[15].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[15].main.temp)}&#176C <br>
+        ${data.list[15].weather[0].description} <hr>
+        ${data.list[16].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[16].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[16].main.temp)}&#176C <br>
+        ${data.list[16].weather[0].description} <hr>
+        ${data.list[17].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[17].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[17].main.temp)}&#176C <br>
+        ${data.list[17].weather[0].description} <hr>
+        ${data.list[18].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[18].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[18].main.temp)}&#176C <br>
+        ${data.list[18].weather[0].description} <hr>
+        ${data.list[19].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[19].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[19].main.temp)}&#176C <br>
+        ${data.list[19].weather[0].description} <hr>
+        ${data.list[20].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[20].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[20].main.temp)}&#176C <br>
+        ${data.list[20].weather[0].description} <hr>
+        ${data.list[21].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[21].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[21].main.temp)}&#176C <br>
+        ${data.list[21].weather[0].description} <hr>
+        ${data.list[22].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[22].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[22].main.temp)}&#176C <br>
+        ${data.list[22].weather[0].description}`;
+
+    contentThirdDay.innerHTML = 
+        `${data.list[23].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[15].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[15].main.temp)}&#176C <br>
+        ${data.list[23].weather[0].description} <hr>
+        ${data.list[24].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[16].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[16].main.temp)}&#176C <br>
+        ${data.list[24].weather[0].description} <hr>
+        ${data.list[25].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[17].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[17].main.temp)}&#176C <br>
+        ${data.list[25].weather[0].description} <hr>
+        ${data.list[26].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[18].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[18].main.temp)}&#176C <br>
+        ${data.list[26].weather[0].description} <hr>
+        ${data.list[27].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[19].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[19].main.temp)}&#176C <br>
+        ${data.list[27].weather[0].description} <hr>
+        ${data.list[28].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[20].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[20].main.temp)}&#176C <br>
+        ${data.list[28].weather[0].description} <hr>
+        ${data.list[29].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[21].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[21].main.temp)}&#176C <br>
+        ${data.list[29].weather[0].description} <hr>
+        ${data.list[30].dt_txt} <br> 
+        <img src="${weatherIconUrl}${data.list[22].weather[0].icon}.png""> <br> 
+        ${Math.round(data.list[22].main.temp)}&#176C <br>
+        ${data.list[30].weather[0].description}`;
+
 }
 
 // Container and btns suggestion city
@@ -162,6 +556,7 @@ for (var i = 0; i < btns.length; i++) {
   });
 }
 
+// FUNCTION TO CLEAR INPUT FIELD VALUE
 function clearField(){
     inputSearchLocation.value = '';
 }

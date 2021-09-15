@@ -38,16 +38,12 @@ body {
 }
 
 .day-weather-inner-box {
-    display: inline-flex;
+    /* display: inline-flex; */
     margin: 14px auto;
     padding: 20px;
     border: 1px solid #4682b4;
     background-color: rgba(0,0,0, 0.1);
     border-radius: 5px;
-}
-
-.forecast-main {
-    padding: 0px 0px 0px 30px;
 }
 
 .day-weather-box p {

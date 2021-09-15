@@ -36,113 +36,29 @@
           <div class="row">
               <div class="col-md-12">
                   <div class="title text-white">
-                      <h4 class="mt-2">Weather in the next 6 days</h4>
+                      <h4 class="mt-2">3-day forecast</h4>
                   </div>
               </div>
           </div>
           <div class="row px-3 mt-3 mb-3 justify-content-end text-white">
-
               <!-- Day 1 -->
               <div class="col-md-4 day-weather-box">
                 <div class="col-md-12 day-weather-inner-box">
-                  <div class="col-md-8 forecast-main">
-                    <p id="forecast-day-1-name">Tue</p>
-                    <div class="row">
-                      <h5 id="forecast-day-1-main">24</h5>
-                      <i class="wi forecast-icon wi-day-hail" id="forecast-day-1-icon"></i>
-                    </div>
-                  </div>
-                  <div class="col-md-4 forecast-min-low">
-                    <p><spam class="high-temperature" id="forecast-day-1-ht">25</spam></p>
-                    <p><spam class="low-temperature" id="forecast-day-1-lt">14</spam></p>
-                  </div>
+                  <div id="contentFirstDay" class="text-center"></div>
                 </div>
               </div>
-              
               <!-- Day 2 -->
               <div class="col-md-4 day-weather-box">
                 <div class="col-md-12 day-weather-inner-box">
-                  <div class="col-md-8 forecast-main">
-                    <p id="forecast-day-2-name">Wed</p>
-                    <div class="row">
-                      <h5 id="forecast-day-2-main">22</h5>
-                      <i class="wi forecast-icon wi-day-hail" id="forecast-day-2-icon"></i>
-                    </div>
-                  </div>
-                  <div class="col-md-4 forecast-min-low">
-                    <p><spam class="high-temperature" id="forecast-day-2-ht">23</spam></p>
-                    <p><spam class="low-temperature" id="forecast-day-2-lt">14</spam></p>
-                  </div>
+                  <div id="contentSecondDay" class="text-center"></div>
                 </div>
               </div>
-              
               <!-- Day 3 -->
               <div class="col-md-4 day-weather-box">
                 <div class="col-md-12 day-weather-inner-box">
-                  <div class="col-md-8 forecast-main">
-                    <p id="forecast-day-3-name">Thu</p>
-                    <div class="row">
-                      <h5 id="forecast-day-3-main">25</h5>
-                      <i class="wi forecast-icon wi-day-cloudy" id="forecast-day-3-icon"></i>
-                    </div>
-                  </div>
-                  <div class="col-md-4 forecast-min-low">
-                    <p><spam class="high-temperature" id="forecast-day-3-ht">27</spam></p>
-                    <p><spam class="low-temperature" id="forecast-day-3-lt">15</spam></p>
-                  </div>
+                  <div id="contentThirdDay" class="text-center"></div>
                 </div>
               </div>
-              
-              <!-- Day 4 -->
-              <div class="col-md-4 day-weather-box">
-                <div class="col-md-12 day-weather-inner-box">
-                  <div class="col-md-8 forecast-main">
-                    <p id="forecast-day-4-name">Fri</p>
-                    <div class="row">
-                      <h5 id="forecast-day-4-main">22</h5>
-                      <i class="wi forecast-icon wi-day-hail" id="forecast-day-4-icon"></i>
-                    </div>
-                  </div>
-                  <div class="col-md-4 forecast-min-low">
-                    <p><spam class="high-temperature" id="forecast-day-4-ht">22</spam></p>
-                    <p><spam class="low-temperature" id="forecast-day-4-lt">17</spam></p>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Day 5 -->
-              <div class="col-md-4 day-weather-box">
-                  <div class="col-md-12 day-weather-inner-box">
-                    <div class="col-md-8 forecast-main">
-                      <p id="forecast-day-5-name">Fri</p>
-                      <div class="row">
-                        <h5 id="forecast-day-5-main">22</h5>
-                        <i class="wi forecast-icon wi-day-hail" id="forecast-day-5-icon"></i>
-                      </div>
-                    </div>
-                    <div class="col-md-4 forecast-min-low">
-                      <p><spam class="high-temperature" id="forecast-day-5-ht">22</spam></p>
-                      <p><spam class="low-temperature" id="forecast-day-5-lt">17</spam></p>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Day 6 -->
-              <div class="col-md-4 day-weather-box">
-                  <div class="col-md-12 day-weather-inner-box">
-                    <div class="col-md-8 forecast-main">
-                      <p id="forecast-day-6-name">Fri</p>
-                      <div class="row">
-                        <h5 id="forecast-day-6-main">22</h5>
-                        <i class="wi forecast-icon wi-day-hail" id="forecast-day-6-icon"></i>
-                      </div>
-                    </div>
-                    <div class="col-md-4 forecast-min-low">
-                      <p><spam class="high-temperature" id="forecast-day-6-ht">22</spam></p>
-                      <p><spam class="low-temperature" id="forecast-day-6-lt">17</spam></p>
-                    </div>
-                  </div>
-                </div>
           </div>
         </div>
         <div class="card2 col-lg-4 col-md-5 text-white">
@@ -158,27 +74,33 @@
             </div>
             <div class="line my-5"></div>
             <div class="row px-3">
-              <p class="light-text"><i class="fas fa-thermometer-three-quarters text-white"></i> Feels like</p>
+              <p class="light-text">
+                <i class="fas fa-thermometer-three-quarters text-white"></i> Feels like</p>
                 <p id="temperatureFeelsLikeCity" class="ml-auto"></p>
             </div>
             <div class="row px-3">
-              <p class="light-text"><i class="fas fa-check text-white"></i></i> Description</p>
+              <p class="light-text">
+                <i class="fas fa-check text-white"></i></i> Description</p>
                 <p id="descriptionWeatherCity" class="ml-auto"></p>
             </div>
             <div class="row px-3">
-              <p class="light-text"><i class="fas fa-humidity text-white"></i> Humidity</p>
+              <p class="light-text">
+                <i class="fas fa-humidity text-white"></i> Humidity</p>
                 <p id="humidityWeatherCity" class="ml-auto"></p>
             </div>
             <div class="row px-3">
-              <p class="light-text"><i class="fas fa-tachometer-alt text-white"></i> Pressure</p>
+              <p class="light-text">
+                <i class="fas fa-tachometer-alt text-white"></i> Pressure</p>
                 <p id="presureWeatherCity" class="ml-auto"></p>
             </div>
             <div class="row px-3">
-              <p class="light-text"><i class="fas fa-temperature-low text-white"></i> Low</p>
+              <p class="light-text">
+                <i class="fas fa-temperature-low text-white"></i> Low</p>
                 <p id="minOfTemperatureCity" class="ml-auto"></p>
             </div>
             <div class="row px-3">
-              <p class="light-text"><i class="fas fa-temperature-high text-white"></i> High</p>
+              <p class="light-text">
+                <i class="fas fa-temperature-high text-white"></i> High</p>
                 <p id="maxOfTemperatureCity" class="ml-auto"></p>
             </div>
             <div class="line mt-3"></div>
@@ -188,6 +110,7 @@
     </div>
   </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
